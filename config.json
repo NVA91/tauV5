@@ -1,0 +1,405 @@
+{
+  "system": {
+    "name": "Enhanced Taupunkt Controller",
+    "version": "3.0",
+    "debug_mode": false,
+    "startup_delay_sec": 2
+  },
+  
+  "pins": {
+    "comment": "Pin-Konfiguration für Raspberry Pi Pico 2",
+    
+    "i2c": {
+      "bus_id": 0,
+      "sda": 0,
+      "scl": 1,
+      "frequency": 400000
+    },
+    
+    "spi": {
+      "bus_id": 1,
+      "sck": 10,
+      "mosi": 11,
+      "miso": 12,
+      "frequency": 30000000
+    },
+    
+    "display": {
+      "cs": 9,
+      "dc": 8,
+      "rst": 7,
+      "backlight": 13,
+      "width": 172,
+      "height": 320,
+      "rotation": 1
+    },
+    
+    "leds": {
+      "red": 15,
+      "yellow": 14,
+      "green": 16
+    },
+    
+    "inputs": {
+      "wakeup_button": 22,
+      "menu_button": 21,
+      "confirm_button": 20
+    },
+    
+    "outputs": {
+      "buzzer": 28,
+      "relay_1": 19,
+      "relay_2": 18
+    },
+    
+    "sd_card": {
+      "spi_id": 0,
+      "sck": 6,
+      "mosi": 7,
+      "miso": 4,
+      "cs": 5
+    }
+  },
+  
+  "sensors": {
+    "comment": "Sensor-Konfiguration und I2C-Adressen",
+    
+    "indoor": {
+      "type": "SHT41",
+      "i2c_address": "0x44",
+      "name": "innen",
+      "enabled": true,
+      "retry_count": 3
+    },
+    
+    "outdoor": {
+      "type": "AHT20", 
+      "i2c_address": "0x38",
+      "name": "aussen",
+      "enabled": true,
+      "retry_count": 3
+    },
+    
+    "measurement": {
+      "interval_sec": 900,
+      "warm_up_time_sec": 5,
+      "max_sensor_age_sec": 1800,
+      "enable_sensor_health_check": true
+    }
+  },
+  
+  "calibration": {
+    "comment": "Sensor-Kalibrierung (Offset-Werte)",
+    
+    "indoor": {
+      "temperature_offset": 0.0,
+      "humidity_offset": 0.0
+    },
+    
+    "outdoor": {
+      "temperature_offset": 0.0,
+      "humidity_offset": 0.0
+    },
+    
+    "auto_calibration": {
+      "enabled": false,
+      "reference_period_hours": 24,
+      "max_auto_offset": 2.0
+    }
+  },
+  
+  "dew_point": {
+    "comment": "Taupunkt-Berechnungs- und Alarm-Parameter",
+    
+    "calculation": {
+      "method": "magnus",
+      "precision_digits": 2
+    },
+    
+    "thresholds": {
+      "safety_margin_c": 2.0,
+      "warning_threshold_c": 3.0,
+      "critical_threshold_c": 1.0,
+      "alarm_threshold_c": 0.5
+    },
+    
+    "risk_evaluation": {
+      "update_interval_sec": 60,
+      "trend_weight": 0.2,
+      "history_weight": 0.3
+    }
+  },
+  
+  "alarms": {
+    "comment": "Alarm-System-Konfiguration",
+    
+    "condensation": {
+      "enabled": true,
+      "buzzer_frequency": 1500,
+      "buzzer_pattern": "continuous",
+      "auto_reset": false,
+      "max_duration_min": 30
+    },
+    
+    "sensor_failure": {
+      "enabled": true,
+      "buzzer_frequency": 2500,
+      "buzzer_pattern": "intermittent",
+      "auto_reset": true,
+      "reset_delay_min": 5
+    },
+    
+    "system_error": {
+      "enabled": true,
+      "buzzer_frequency": 2000,
+      "buzzer_pattern": "triple_beep",
+      "auto_reset": false,
+      "max_duration_min": 10
+    },
+    
+    "general": {
+      "snooze_duration_min": 10,
+      "max_snooze_count": 3,
+      "night_mode_start": "22:00",
+      "night_mode_end": "06:00",
+      "night_mode_volume": 30
+    }
+  },
+  
+  "display": {
+    "comment": "Display-Verhalten und Energieverwaltung",
+    
+    "backlight": {
+      "timeout_sec": 60,
+      "brightness_day": 100,
+      "brightness_night": 30,
+      "auto_brightness": true
+    },
+    
+    "screens": {
+      "main_screen_refresh_sec": 5,
+      "alarm_screen_blink_sec": 1,
+      "trend_screen_update_sec": 30
+    },
+    
+    "colors": {
+      "background": "0x0000",
+      "text_primary": "0xFFFF",
+      "text_secondary": "0xC618",
+      "status_ok": "0x07E0",
+      "status_warning": "0xFFE0", 
+      "status_critical": "0xF800",
+      "accent": "0x001F"
+    },
+    
+    "layout": {
+      "show_trends": true,
+      "show_timestamps": true,
+      "show_sensor_status": true,
+      "compact_mode": false
+    }
+  },
+  
+  "logging": {
+    "comment": "Datenlogger-Konfiguration",
+    
+    "file_settings": {
+      "log_file_prefix": "taupunkt_log",
+      "log_interval_sec": 3600,
+      "max_file_size_mb": 5,
+      "max_files_count": 30,
+      "compress_old_files": false
+    },
+    
+    "data_fields": {
+      "timestamp": true,
+      "temperature_indoor": true,
+      "humidity_indoor": true,
+      "dew_point_indoor": true,
+      "temperature_outdoor": true,
+      "humidity_outdoor": true,
+      "dew_point_outdoor": true,
+      "risk_level": true,
+      "trend_data": true,
+      "sensor_status": true,
+      "system_status": true
+    },
+    
+    "rotation": {
+      "daily_rotation": true,
+      "keep_days": 90,
+      "backup_to_subfolder": true
+    }
+  },
+  
+  "trends": {
+    "comment": "Trend-Analyse-Konfiguration",
+    
+    "analysis_periods": {
+      "short_term_min": 5,
+      "medium_term_min": 15,
+      "long_term_min": 60
+    },
+    
+    "detection": {
+      "min_change_threshold": 0.5,
+      "rapid_change_threshold": 2.0,
+      "trend_confirmation_points": 3
+    },
+    
+    "storage": {
+      "max_data_points": 1440,
+      "compression_ratio": 0.1,
+      "save_to_file": true
+    }
+  },
+  
+  "network": {
+    "comment": "Netzwerk-Konfiguration (falls WLAN-Modul vorhanden)",
+    
+    "wifi": {
+      "enabled": false,
+      "ssid": "",
+      "password": "",
+      "auto_connect": true,
+      "retry_count": 3
+    },
+    
+    "mqtt": {
+      "enabled": false,
+      "broker": "",
+      "port": 1883,
+      "username": "",
+      "password": "",
+      "topic_prefix": "taupunkt"
+    },
+    
+    "web_server": {
+      "enabled": false,
+      "port": 80,
+      "auth_required": false
+    }
+  },
+  
+  "system_health": {
+    "comment": "System-Überwachung und Wartung",
+    
+    "watchdog": {
+      "timeout_ms": 8000,
+      "enable_reset": true
+    },
+    
+    "memory": {
+      "gc_interval_sec": 300,
+      "memory_warning_threshold": 80,
+      "low_memory_actions": ["reduce_logging", "clear_trends"]
+    },
+    
+    "filesystem": {
+      "check_interval_min": 60,
+      "free_space_warning_mb": 10,
+      "auto_cleanup": true
+    },
+    
+    "temperature": {
+      "cpu_temp_warning_c": 70,
+      "cpu_temp_critical_c": 80,
+      "enable_thermal_throttling": true
+    }
+  },
+  
+  "user_interface": {
+    "comment": "Benutzeroberfläche und Interaktion",
+    
+    "buttons": {
+      "debounce_ms": 50,
+      "long_press_ms": 1000,
+      "double_click_ms": 300
+    },
+    
+    "menu": {
+      "enabled": true,
+      "auto_exit_sec": 30,
+      "navigation_wrap": true
+    },
+    
+    "feedback": {
+      "button_beep": true,
+      "led_feedback": true,
+      "vibration": false
+    }
+  },
+  
+  "automation": {
+    "comment": "Automatisierungs-Regeln",
+    
+    "rules": {
+      "auto_ventilation": {
+        "enabled": false,
+        "trigger_risk_level": "warning",
+        "relay_pin": 19,
+        "duration_min": 15
+      },
+      
+      "night_mode": {
+        "enabled": true,
+        "start_time": "22:00",
+        "end_time": "06:00",
+        "reduced_alarms": true,
+        "dim_display": true
+      }
+    },
+    
+    "schedules": {
+      "daily_report": {
+        "enabled": false,
+        "time": "08:00",
+        "action": "log_summary"
+      }
+    }
+  },
+  
+  "maintenance": {
+    "comment": "Wartungs- und Kalibrierungs-Einstellungen",
+    
+    "calibration_reminder": {
+      "enabled": true,
+      "interval_days": 30,
+      "next_due": "2025-07-26"
+    },
+    
+    "sensor_cleaning": {
+      "reminder_interval_days": 90,
+      "last_cleaned": "2025-06-26"
+    },
+    
+    "backup": {
+      "auto_backup": true,
+      "backup_interval_days": 7,
+      "keep_backups": 4
+    }
+  },
+  
+  "advanced": {
+    "comment": "Erweiterte Einstellungen für Profis",
+    
+    "algorithm_tuning": {
+      "trend_smoothing_factor": 0.8,
+      "risk_calculation_weight": 1.0,
+      "sensor_fusion_enabled": false
+    },
+    
+    "performance": {
+      "cpu_frequency_mhz": 133,
+      "enable_overclocking": false,
+      "power_save_mode": false
+    },
+    
+    "debugging": {
+      "verbose_logging": false,
+      "sensor_raw_data": false,
+      "timing_measurements": false,
+      "memory_tracking": false
+    }
+  }
+}
