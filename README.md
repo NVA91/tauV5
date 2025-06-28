@@ -25,3 +25,14 @@ Firmware-Projekt zur Taupunktmessung auf Basis eines Raspberry Pi Pico (RP2040).
 ## Dokumentation
 
 Detaillierte Informationen befinden sich im Ordner `docs/`.
+
+## Selftest
+
+Um das System ohne angeschlossene Sensoren zu testen, kann das Skript `selftest.py` ausgeführt werden. Kopieren Sie dazu die Datei zusammen mit dem Ordner `lib/` auf den Pico und starten Sie im REPL:
+
+```python
+import selftest
+selftest.run_selftest()
+```
+
+Das Skript prüft die Modulimporte, simuliert Sensorwerte und gibt den verfügbaren Speicher (``gc.mem_free()``) aus.
