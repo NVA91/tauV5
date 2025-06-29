@@ -34,5 +34,3 @@ Um das System ohne angeschlossene Sensoren zu testen, kann das Skript `selftest.
 import selftest
 selftest.run_selftest()
 ```
-
-Das Skript prüft die Modulimporte, simuliert Sensorwerte und gibt den verfügbaren Speicher (``gc.mem_free()``) aus.
