@@ -34,3 +34,12 @@ Um das System ohne angeschlossene Sensoren zu testen, kann das Skript `selftest.
 import selftest
 selftest.run_selftest()
 ```
+
+## Tests
+
+Lokal lassen sich die Module mit `pytest` testen. Die Abhängigkeiten befinden
+sich in `requirements.txt`.
+
+```bash
+pytest
+```
